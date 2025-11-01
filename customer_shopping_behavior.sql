@@ -4,3 +4,17 @@ SELECT gender, SUM(purchase_amount_usd) as total_revenue
 FROM customer_data
 GROUP BY gender;
 
+-- which customers using discount but still spend more than the average purchase amount?
+WITH
+total_records AS (SELECT COUNT(*) as total FROM customer_data),
+avg_amount AS (SELECT AVG(purchase_amount_usd) as avg_amount FROM customer_data),
+high_average_discounted AS (SELECT COUNT(*) as high_average_discounted
+                            FROM customer_data c, avg_amount a
+                            WHERE c.discount_applied = 'Yes' and c.purchase_amount_usd > a.avg_amount ),
+high_average_discounted_percentage  AS(SELECT h.high_average_discounted * 100 / t.total
+                                        as percentage
+                                        FROM high_average_discounted h, total_records t)
+SELECT ROUND(hp.percentage, 2)
+FROM high_average_discounted_percentage hp;
+
+ 
