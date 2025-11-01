@@ -17,4 +17,9 @@ high_average_discounted_percentage  AS(SELECT h.high_average_discounted * 100 / 
 SELECT ROUND(hp.percentage, 2)
 FROM high_average_discounted_percentage hp;
 
- 
+ -- what is the top 5 highest average rating products?
+SELECT item_purchased, ROUND(AVG(review_rating::numeric), 2) as average_rating
+FROM customer_data
+GROUP BY item_purchased
+ORDER BY average_rating DESC
+LIMIT 5;
