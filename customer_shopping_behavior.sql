@@ -38,3 +38,13 @@ FROM customer_data
 GROUP BY shipping_type
 ORDER BY average_purchase_amount DESC
 LIMIT 2;
+
+-- Do subscribers spend more than non-subscribers regarding the total revenue?
+
+SELECT subscription_status, ROUND(AVG(purchase_amount_usd), 2) AS avg_purchase, SUM(purchase_amount_usd) AS total_revenue
+FROM customer_data
+GROUP BY subscription_status
+ORDER BY total_revenue DESC;
+
+
+
