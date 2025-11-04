@@ -54,4 +54,10 @@ WHERE discount_applied = 'Yes'
 GROUP BY item_purchased, discount_applied
 ORDER BY total_purchase_amount DESC
 LIMIT 5;
+--> by discount percentage
 
+SELECT item_purchased, ROUND(100 * SUM(CASE WHEN discount_applied = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS discount_percentage
+FROM customer_data 
+GROUP BY item_purchased
+ORDER BY discount_percentage DESC
+LIMIT 5;
