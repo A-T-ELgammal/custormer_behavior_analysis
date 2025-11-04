@@ -41,10 +41,9 @@ LIMIT 2;
 
 -- Do subscribers spend more than non-subscribers regarding the total revenue?
 
-SELECT subscription_status, ROUND(AVG(purchase_amount_usd), 2) AS avg_purchase, SUM(purchase_amount_usd) AS total_revenue
+SELECT subscription_status, COUNT(customer_id) AS total_customer, ROUND(AVG(purchase_amount_usd), 2) AS avg_purchase, SUM(purchase_amount_usd) AS total_revenue
 FROM customer_data
 GROUP BY subscription_status
-ORDER BY total_revenue DESC;
+ORDER BY total_revenue, avg_purchase DESC;
 
-
-
+-- 
