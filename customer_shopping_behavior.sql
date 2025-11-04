@@ -23,3 +23,18 @@ FROM customer_data
 GROUP BY item_purchased
 ORDER BY average_rating DESC
 LIMIT 5;
+
+--comparing between average purchase amount between standard and express shipping?
+SELECT DISTINCT(shipping_type)
+FROM customer_data
+
+SELECT shipping_type, COUNT(*) AS shipping_type_ranking_by_orders , ROUND(AVG(purchase_amount_usd), 2) AS avg_purchase_amount
+FROM customer_data
+GROUP BY shipping_type
+ORDER BY shipping_type_ranking_by_orders, avg_purchase_amount DESC;
+
+SELECT shipping_type, ROUND(AVG(purchase_amount_usd), 2) AS average_purchase_amount
+FROM customer_data
+GROUP BY shipping_type
+ORDER BY average_purchase_amount DESC
+LIMIT 2;
