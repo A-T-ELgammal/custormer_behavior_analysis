@@ -61,3 +61,20 @@ FROM customer_data
 GROUP BY item_purchased
 ORDER BY discount_percentage DESC
 LIMIT 5;
+
+-- segment the customer into new, returning, loyal based on their previous purchases and who count of them.
+
+SELECT MIN(previous_purchases) AS min, MAX(previous_purchases) AS max,
+FROM customer_data;
+
+SELECT 
+        CASE 
+        WHEN previous_purchases < 16 THEN 'new_customer'
+        WHEN previous_purchases >= 16 AND previous_purchases < 32 THEN 'returning_customer'
+        WHEN previous_purchases >= 32 AND previous_purchases < 50 THEN 'loyal_customer'
+        WHEN previous_purchases IS NULL THEN 'not defined'
+        END AS customer_loyality,
+        COUNT(*) AS customer_count
+FROM customer_data
+GROUP BY customer_loyality
+ORDER BY customer_count DESC;
