@@ -46,4 +46,12 @@ FROM customer_data
 GROUP BY subscription_status
 ORDER BY total_revenue, avg_purchase DESC;
 
--- 
+-- top 5 products have the highest percentage of purchases with discount applied?
+
+SELECT item_purchased AS items, discount_applied, SUM(purchase_amount_usd) AS total_purchase_amount
+FROM customer_data
+WHERE discount_applied = 'Yes'
+GROUP BY item_purchased, discount_applied
+ORDER BY total_purchase_amount DESC
+LIMIT 5;
+
