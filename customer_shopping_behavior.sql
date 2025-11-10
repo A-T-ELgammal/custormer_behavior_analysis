@@ -94,4 +94,14 @@ SELECT item_ranking, category, item_purchased, total_orders
 FROM item_count
 WHERE item_ranking <= 3;
 
-
+-- top 2 most expensive item in each category 
+WITH item_price_rank AS 
+(
+        SELECT item_purchased, category,
+                ROW_NUMBER() OVER (PARTITION BY category ORDER BY MAX(purchase_amount_usd) DESC) AS item_rank
+        FROM customer_data
+        GROUP BY category, item_purchased
+)
+SELECT item_purchased, category, item_rank
+FROM item_price_rank
+WHERE item_rank <= 2;
