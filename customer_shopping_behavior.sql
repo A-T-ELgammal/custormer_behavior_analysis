@@ -78,3 +78,20 @@ SELECT
 FROM customer_data
 GROUP BY customer_loyality
 ORDER BY customer_count DESC;
+
+-- top 3 most purchased products in each category 
+
+WITH 
+item_count AS 
+(
+        SELECT category, item_purchased,
+        COUNT(customer_id) AS total_orders,
+        ROW_NUMBER() OVER (PARTITION BY category ORDER BY COUNT(customer_id) DESC) AS item_ranking
+        FROM customer_data
+        GROUP BY category, item_purchased
+)
+SELECT item_ranking, category, item_purchased, total_orders
+FROM item_count
+WHERE item_ranking <= 3;
+
+
