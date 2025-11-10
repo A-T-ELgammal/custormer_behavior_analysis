@@ -105,3 +105,15 @@ WITH item_price_rank AS
 SELECT item_purchased, category, item_rank
 FROM item_price_rank
 WHERE item_rank <= 2;
+
+--  top 2 colors purchased the most in each season
+WITH season_color_rank AS 
+(
+        SELECT season, color,
+        ROW_NUMBER() OVER (PARTITION BY season ORDER BY COUNT(color)) AS color_rank
+        FROM customer_data
+        GROUP BY season, color
+)
+SELECT season, color, color_rank
+FROM season_color_rank
+WHERE color_rank <= 3;
