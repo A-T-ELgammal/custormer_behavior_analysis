@@ -117,3 +117,10 @@ WITH season_color_rank AS
 SELECT season, color, color_rank
 FROM season_color_rank
 WHERE color_rank <= 3;
+
+-- are customer who are repeat buyers (more than 5 previous purchases) also likely to subscribe?
+
+SELECT subscription_status, COUNT(*) AS repeat_buyers
+FROM customer_data
+WHERE previous_purchases >= 5
+GROUP BY subscription_status;
