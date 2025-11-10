@@ -124,3 +124,9 @@ SELECT subscription_status, COUNT(*) AS repeat_buyers
 FROM customer_data
 WHERE previous_purchases >= 5
 GROUP BY subscription_status;
+
+-- what are the revenue contribution in each age group?
+SELECT age_group, SUM(purchase_amount_usd) AS total_spending
+FROM customer_data
+GROUP BY age_group
+ORDER BY total_spending DESC;
